@@ -15,5 +15,5 @@ class Publicaciones(models.Model):
         return f"Titulo: {self.titulo} -- Autor: {self.autor} -- Fecha: {self.fecha}"
 
 class Avatar(models.Model):
-    usario = models.ForeignKey(User, on_delete=models.CASCADE)
+    usuario = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
     imagen = models.ImageField(upload_to="avatar",null=True, blank=True)

@@ -8,13 +8,13 @@
 
                 <h4 class="serif mb-3">Agregar Publicación</h4>
 
-            <form method="POST">
+            <form method="POST" enctype="multipart/form-data">
                 {% csrf_token %}
 
                 <div class="form-group">
 
                 <label for="titulo">Imagen:</label>
-                <input class="form-control" type="file" name="titulo" id="titulo" value="{{publicaciones.titulo}}">
+                <input class="form-control" type="file" name="imagen" id="imagen" value="{{publicaciones.imagen}}">
                 <small class="mb-3 d-block">Se recomienda que la imagen debe ser de 400px x 300px para que se visualice correctamente.</small>
             
                 <label for="titulo">Titulo:</label>

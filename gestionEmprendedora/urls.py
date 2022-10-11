@@ -36,7 +36,7 @@ urlpatterns = [
     path('accounts/logout', logout, name="logout"),
     path('users/edit', vistaUsuarios, name="editarUsuarios"),
     path('accounts/edit/<username_data>/', editarUsuarios, name="editarMiUsuario"),
-
+    path('accounts/singleEdit/<username_data>/', editarUsuarioIndividual, name="editarMiUsuarioIndividual"),
     path('accounts/delete/<username>', eliminarUsuarios, name="eliminarMiUsuario"),
 
     #avatar

@@ -26,7 +26,7 @@ class CrearPublicacion(CreateView):
     template_name = 'agregarPaginas_form.html'
     model = Publicaciones
     success_url = "/pages/edit"
-    fields = ["titulo","subtitulo","cuerpo","autor","fecha"]
+    fields = ["imagen", "titulo","subtitulo","cuerpo","autor","fecha"]
 
 
 class ActualizarPublicacion(UpdateView):
@@ -92,7 +92,6 @@ def eliminarUsuarios(request, username):
 def editarUsuarios(request, username_data): #admin
 
     usuario = User.objects.get(username=username_data)
-    usuarioActual = request.user
 
     print(request.method)
 
@@ -100,7 +99,7 @@ def editarUsuarios(request, username_data): #admin
 
         form = EditarUsuario(request.POST)
 
-        if form.is_valid:
+        if form.is_valid():
 
             info = form.cleaned_data
 
@@ -111,7 +110,7 @@ def editarUsuarios(request, username_data): #admin
 
             usuario.save()
 
-            return render(request, "infoCuenta.html")
+            return redirect("perfil")
 
     else:
 
@@ -122,6 +121,38 @@ def editarUsuarios(request, username_data): #admin
         })
 
     return render(request, "editarUsuarios.html", {"formulario": form, "usuario": usuarioActual})
+
+@login_required(login_url='/accounts/login')
+def editarUsuarioIndividual(request, username_data): #admin
+
+    usuario = User.objects.get(username=username_data)
+
+    if request.method == 'POST':
+
+        form = EditarUsuario(request.POST)
+
+        if form.is_valid():
+
+            info = form.cleaned_data
+
+            usuario.email=info["email"]
+            usuario.first_name=info["first_name"]
+            usuario.last_name=info["last_name"]
+            usuario.set_password=info["password1"]
+
+            usuario.save()
+
+            return redirect("editarUsuarios")
+
+    else:
+
+        form = EditarUsuario(initial={
+            'email': usuario.email,
+            'first_name': usuario.first_name,
+            'last_name': usuario.last_name
+        })
+
+    return render(request, "editarUsuarioIndividual.html", {"formulario": form})
 
 
     
@@ -172,16 +203,18 @@ def agregarAvatar(request):
 
         form = AvatarForm(request.POST, request.FILES)
 
-        if form.is_valid:
+        if form.is_valid():
 
-            avatar = Avatar(imagen = form.cleaned_data["imagen"])
+            avatar = Avatar(usuario = usuarioActual,
+                imagen = form.cleaned_data["imagen"])
 
             avatar.save()
 
-            return render(request, "infoCuenta.html")
+            return redirect("perfil")
 
     else:
 
         form = AvatarForm()
 
     return render(request, "agregarAvatar.html", {"formulario": form, "usuario": usuarioActual})
+
