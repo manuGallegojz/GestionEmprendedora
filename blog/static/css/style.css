@@ -32,7 +32,7 @@ body {
 .bg-rosa {
   color: #FFC4BA; }
 
-/*funcionalidad*/
+/*funcionalidades*/
 
 
 .escala{
@@ -41,6 +41,14 @@ body {
 
 .escala:hover{
   transform: scale(1.01);
+}
+
+.sombraRosa{
+  box-shadow: 0 4px 8px 0 #FFC4BA, 0 6px 20px 0 #FFC4BA;
+}
+
+.sombraVerde{
+  box-shadow: 0 4px 8px 0 #75ccbb, 0 6px 20px 0 #75ccbb;
 }
 
 /*--------------------inicio--------------------*/
@@ -118,6 +126,7 @@ body {
   .transicion:hover{
       transform: scale(1.05);
   }
+
 
 /*---------------footer---------------*/
 footer {

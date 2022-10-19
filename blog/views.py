@@ -8,45 +8,44 @@ from django.views.generic.edit import CreateView, DeleteView, UpdateView
 from django.contrib.auth.decorators import login_required
 
 def inicio(request): #user
-    return render(request, "index.html")
+    return render(request, "general/index.html")
 
 def sobreNosotras(request): #user
-    return render(request, "sobreNosotras.html")
+    return render(request, "general/sobreNosotras.html")
 
 class ListaPublicaciones(ListView):
-    template_name = 'publicaciones_list.html'
+    template_name = 'publicaciones/publicaciones_list.html'
     model = Publicaciones
 
 class DetallePublicacion(DetailView):
-    template_name = 'publicacion_detail.html'
+    template_name = 'publicaciones/publicacion_detail.html'
     model = Publicaciones
 
 
 class CrearPublicacion(CreateView):
-    template_name = 'agregarPaginas_form.html'
+    template_name = 'publicaciones/agregarPaginas_form.html'
     model = Publicaciones
     success_url = "/pages/edit"
     fields = ["imagen", "titulo","subtitulo","cuerpo","autor","fecha"]
 
 
 class ActualizarPublicacion(UpdateView):
-    template_name = 'agregarPaginas_form.html'
+    template_name = 'publicaciones/agregarPaginas_form.html'
     model = Publicaciones
     success_url = "/pages/edit"
     fields = ["titulo","subtitulo","cuerpo","autor","fecha"]
 
 
 class BorrarPublicacion(DeleteView):
-    template_name = 'eliminarPaginas_confirm_delete.html'
+    template_name = 'publicaciones/eliminarPaginas_confirm_delete.html'
     model = Publicaciones
     success_url = "/pages/edit"
 
 
 class ListaPublicacionesEdicion(ListView):
     
-    template_name = 'verPaginas_list.html'
+    template_name = 'publicaciones/verPaginas_list.html'
     model = Publicaciones
-
 
 
 #cuenta
@@ -57,7 +56,7 @@ def perfil(request): #user
 
     usuario = request.user
 
-    return render(request, "infoCuenta.html", {"usuario": usuario})
+    return render(request, "user/infoCuenta.html", {"usuario": usuario})
 
 #cerrar mi sesión
 @login_required(login_url='/accounts/login')
@@ -73,7 +72,7 @@ def vistaUsuarios(request):
 
     usuarios = User.objects.all()
 
-    return render(request, "verUsuarios_list.html", context={"usuarios": usuarios})
+    return render(request, "user/verUsuarios_list.html", context={"usuarios": usuarios})
 
 #vista eliminar los usuarios
 @login_required(login_url='/accounts/login')
@@ -84,7 +83,7 @@ def eliminarUsuarios(request, username):
 
     usuarios = User.objects.all()
 
-    return render(request, "verUsuarios_list.html", context={"usuarios": usuarios})
+    return render(request, "user/verUsuarios_list.html", context={"usuarios": usuarios})
 
 
 #vista para agregar mi avatar
@@ -120,7 +119,7 @@ def editarUsuarios(request, username_data): #admin
             'last_name': usuario.last_name
         })
 
-    return render(request, "editarUsuarios.html", {"formulario": form, "usuario": usuarioActual})
+    return render(request, "user/editarUsuarios.html", {"formulario": form, "usuario": usuarioActual})
 
 @login_required(login_url='/accounts/login')
 def editarUsuarioIndividual(request, username_data): #admin
@@ -152,44 +151,7 @@ def editarUsuarioIndividual(request, username_data): #admin
             'last_name': usuario.last_name
         })
 
-    return render(request, "editarUsuarioIndividual.html", {"formulario": form})
-
-
-    
-    # usuario = User.objects.get(username=username)
-
-    # if request.POST == {}:
-    #     form = EditarUsuario(initial = {
-    #         "email": usuario.email,
-    #         "first_name": usuario.first_name,
-    #         "last_name": usuario.last_name
-    #         })
-    #     return render(request, "editarUsuarios.html", {"formulario": form})
-    # else:
-    #     try:
-
-    #         form = EditarUsuario(request.POST)
-            
-    #         if form.is_valid():
-
-    #             info = form.cleaned_data
-
-    #             usuario.email=info["email"]
-    #             usuario.first_name=info["first_name"]
-    #             usuario.last_name=info["last_name"]
-    #             usuario.set_password=info["password1"]
-
-    #             usuario.save()
-
-    #             return render(request, "infoCuenta.html")
-    #     except:
-    #         form = EditarUsuario(initial = {
-    #         "email": usuario.email,
-    #         "first_name": usuario.first_name,
-    #         "last_name": usuario.last_name
-    #         })
-    #         return render(request, "infoCuenta.html", {"resultado": "no se pudo editar el archivo.", "formulario": form})
-
+    return render(request, "user/editarUsuarioIndividual.html", {"formulario": form})
 
 #avatar
 
@@ -216,5 +178,5 @@ def agregarAvatar(request):
 
         form = AvatarForm()
 
-    return render(request, "agregarAvatar.html", {"formulario": form, "usuario": usuarioActual})
+    return render(request, "user/agregarAvatar.html", {"formulario": form, "usuario": usuarioActual})
 
